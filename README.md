@@ -1,2 +1,2 @@
 # AoC2023
-I'll use godot for everything, hopefully
+I'll use GoLang for everything, hopefully
