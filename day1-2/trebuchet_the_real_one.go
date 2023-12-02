@@ -15,7 +15,7 @@ func extract_ints(re *regexp.Regexp, text string) int64 {
 	var spelled_out = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
 
 	var hold string
-	for i := 0; i < len(text); i++  {
+	for i := 0; i < len(text); i++ {
 		v := text[i]
 		hold += string(v)
 		if unicode.IsDigit(rune(v)) {
@@ -32,11 +32,11 @@ func extract_ints(re *regexp.Regexp, text string) int64 {
 		}
 	}
 	fmt.Println(new_text)
-	numbers := strings.Split(new_text,"")
+	numbers := strings.Split(new_text, "")
 	conversion, err := strconv.ParseInt((numbers[0] + numbers[len(numbers)-1]), 10, 64)
-		if err != nil {
-			fmt.Println(err)
-		}
+	if err != nil {
+		fmt.Println(err)
+	}
 	return conversion
 }
 
