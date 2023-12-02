@@ -12,45 +12,37 @@ import (
 
 func extract_ints(re *regexp.Regexp, text string) int64 {
 	var new_text string
-	spelled_out := [9]string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
-	for i, number := range spelled_out {
-		if strings.Contains(text, number) {
-			text = strings.ReplaceAll(text, spelled_out[i], fmt.Sprint(i+1))
+	var spelled_out = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
+
+	var hold string
+	for i := 0; i < len(text); i++  {
+		v := text[i]
+		hold += string(v)
+		if unicode.IsDigit(rune(v)) {
+			new_text += string(v)
+			hold = ""
 		}
-	}
-	fmt.Println(text)
-	for _, char := range text {
-		if unicode.IsDigit(char) {
-			new_text = new_text + " " + string(char) + " "
-		} else {
-			new_text += string(char)
-		}
-	}
-	new_text = strings.ReplaceAll(new_text, " ", "")
-	splitted := strings.Split(new_text, " ")
-	//var finally []string
-	fmt.Println(splitted)
-	/*for _, v := range splitted {
-		if re.Match([]byte(v)) {
-			for i, number := range spelled_out {
-				if strings.Contains(string(v), number) {
-					finally = append(finally, strconv.Itoa(i+1))
-				}
+		for j, value := range spelled_out {
+			if strings.Contains(hold, value) {
+				new_text += fmt.Sprint(j + 1)
+				hold = ""
+				i--
+				break
 			}
-		} else {
-			finally = append(finally, string(v))
 		}
-	}*/
-	conversion, err := strconv.ParseInt((splitted[0] + splitted[len(splitted)-1]), 10, 64)
-	if err != nil {
-		fmt.Println(err)
 	}
+	fmt.Println(new_text)
+	numbers := strings.Split(new_text,"")
+	conversion, err := strconv.ParseInt((numbers[0] + numbers[len(numbers)-1]), 10, 64)
+		if err != nil {
+			fmt.Println(err)
+		}
 	return conversion
 }
 
 func main() {
 	re := regexp.MustCompile(`[a-z]`)
-	file, err := os.Open("./input1.txt")
+	file, err := os.Open("./input.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
